@@ -1,5 +1,6 @@
 use std::io;
 use std::str::FromStr;
+use std::fmt;
 
 struct Vector {
 	x: f64,
@@ -81,6 +82,13 @@ impl Ray {
     }
 }
 
+impl fmt::Display for Vector {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "(x: {}, y: {}, x_end: {}, y_end: {})", self.x, self.y, self.x_end, self.y_end)
+    }
+}
+
+
 fn det (v1: &Vector, v2: &Vector) -> f64 {
 	(v1.get_start().x - v1.get_end().x) * (v2.get_start().y - v2.get_end().y) - (v1.get_start().y - v1.get_end().y) * (v2.get_start().x - v2.get_end().x)
 }
@@ -134,7 +142,7 @@ fn main() {
 		input.clear();
     }
 
-	let mut min_distance: f64 = 0.0;
+	let mut min_distance = std::f64::INFINITY;
 	let mut n_seg = segments.first().unwrap();
 	for seg in &segments {
 		if seg.intersects(&ray) {
@@ -150,5 +158,5 @@ fn main() {
         }
     }
 
-	println!("Nearest segment: {:?}, distance:{:.3}", n_seg, min_distance);
+	println!("Nearest segment: {}, distance: {:.3}", n_seg, min_distance);
 }
