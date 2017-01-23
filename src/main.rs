@@ -147,10 +147,6 @@ fn main() {
 	for seg in &segments {
 		if seg.intersects(&ray) {
 			let distance = seg.get_start().distance(&seg.get_intersection(&ray).unwrap());
-			if min_distance == 0.0 {
-				min_distance = distance;
-				n_seg = seg;
-			}
 			if min_distance > distance {
 				min_distance = distance;
 				n_seg = seg;
@@ -158,5 +154,10 @@ fn main() {
         }
     }
 
-	println!("Nearest segment: {}, distance: {:.3}", n_seg, min_distance);
+    if min_distance == std::f64::INFINITY {
+        println!();
+    }
+    else {
+	    println!("Nearest segment: {}, distance: {:.3}", n_seg, min_distance);
+    }
 }
